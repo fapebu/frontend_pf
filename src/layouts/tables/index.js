@@ -32,7 +32,7 @@ import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
 
 import MUIDataTable from "mui-datatables";
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 function Tables() {
   const { columns, rows } = authorsTableData();
   const { columns: pColumns, rows: pRows } = projectsTableData();
@@ -65,6 +65,19 @@ function Tables() {
     tableBodyHeight : "400px",
     tableBodyMaxHeight: ""
   };
+
+  const theme = createTheme({
+    components: {
+      // Name of the component
+      MUIDataTable: {
+        defaultProps: {
+          // The props to change the default for.
+          disableRipple: true, // No more ripple, on the whole application 💣!
+        },
+      },
+    },
+  });
+  
 
   return (
     <>
@@ -108,11 +121,15 @@ function Tables() {
                 <MDTypography variant="h6" color="white">
                   Authors Table
                 </MDTypography>
+                <ThemeProvider theme={theme}>
+  
+
                 <MUIDataTable
                 data={data}
                 columns={column}
                 options={options}
                 />
+                </ThemeProvider>
               </MDBox>
               
             </Card>
