@@ -47,12 +47,12 @@ import axios from "axios";
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
   //useState
-  const [data, setData] = useState([""]);
+  const [statusPuerta, setstatusPuerta] = useState([""]);
 
   useEffect(async function getdata(){
-    const response = await axios.get('http://localhost:3001/aperturaPuerta/13/');
+    const response = await axios.get('http://localhost:3001/aperturaPuerta/status/13/');
     console.log(response);
-    setData(response.data);
+    setstatusPuerta(response.data);
   }, [])
 
 
@@ -68,7 +68,7 @@ function Dashboard() {
                 color="dark"
                 icon = <MeetingRoomRoundedIcon fontSize="large"/>
                 title="Estado de Puerta"
-                count="Abierta"
+                count={statusPuerta[0].status}
                 percentage={{
                   color: "success",
                   amount: "2",
@@ -118,7 +118,7 @@ function Dashboard() {
                   description={
                     <>
                     
-                     Ultimo valor leido: <strong> {data[0].status} grados</strong> .
+                     Ultimo valor leido: <strong>2 grados</strong> .
               
                     </>
                   }
