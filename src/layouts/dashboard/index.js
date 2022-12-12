@@ -47,13 +47,99 @@ import axios from "axios";
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
   //useState
-  const [statusPuerta, setstatusPuerta] = useState([""]);
+  
+  const [statusDash, setstatusDash] = useState({"status_puerta": "none",
+                                                "status_luz": "none",
+                                                "status_movimiento": "none"});
 
-  useEffect(async function getdata(){
-    const response = await axios.get('http://localhost:3001/aperturaPuerta/status/13/');
-    console.log(response);
-    setstatusPuerta(response.data);
-  }, [])
+  const [data, setData] = useState(new Object());
+  const [fecha, setFecha] = useState(new Object());
+  var variable = 1; 
+  var time = 5000;
+  const urlTemp = 'http://localhost:3001/temperatura/11'
+  
+  useEffect(() => { //inicializamos la temperatura.
+     
+     axios.get(urlTemp).then((response) => {
+      let label = [];
+      let datasets = [];
+                                              
+      response.data.forEach(element => {
+        label.push(element.hora)
+        datasets.push(element.temp)
+        });
+   
+   
+   
+   const sales = {
+                  labels: label,
+                  datasets: { 
+                              label: "Temperatura", 
+                              data: datasets 
+                            },
+                  }
+      setData(sales);
+      const date = new Date(); //tomamos la fecha actual
+      let minutes = 0;
+      if(date.getMinutes()< 10){
+           minutes = "0" + date.getMinutes();
+        }
+      else{ 
+           minutes = date.getMinutes()
+        }
+                                                 
+      
+      const dateNow = {
+        "hora" : date.getHours(),
+        "minutos" : minutes,
+        }
+        
+        setFecha(dateNow)
+                      }) 
+     
+    }, [])
+                                                 
+useEffect(() => { //intervalo de temperatura
+  
+ function funcion () { axios.get(urlTemp).then((response) => {
+   let label = [];
+   let datasets = [];
+                                              
+   response.data.forEach(element => {
+     label.push(element.hora)
+     datasets.push(element.temp)
+     });
+
+const sales = {
+               labels: label,
+               datasets: { 
+                           label: "Temperatura", 
+                           data: datasets 
+                         },
+               }
+   setData(sales);
+                                              
+   const date = new Date(); //tomamos la fecha actual
+   let minutes = 0;
+   if(date.getMinutes()< 10){
+        minutes = "0" + date.getMinutes();
+     }
+   else{ 
+        minutes = date.getMinutes()
+     }
+                                              
+   
+   const dateNow = {
+     "hora" : date.getHours(),
+     "minutos" : minutes,
+     }
+    
+     setFecha(dateNow)
+                                              
+                   })};
+  
+    const intervalo = setInterval(funcion,time)
+    }, [])
 
 
 
@@ -68,7 +154,7 @@ function Dashboard() {
                 color="dark"
                 icon = <MeetingRoomRoundedIcon fontSize="large"/>
                 title="Estado de Puerta"
-                count={statusPuerta[0].status}
+                count={statusDash.status_puerta}
                 percentage={{
                   color: "success",
                   amount: "2",
@@ -82,7 +168,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon = <LightbulbIcon fontSize="large"/>
                 title="Estado Luces"
-                count="Apagada"
+                count={statusDash.status_luz}
                 percentage={{
                   color: "success",
                   amount: "2",
@@ -97,7 +183,7 @@ function Dashboard() {
                 color="primary"
                 icon= <AccessibilityNewIcon fontSize="large"/>
                 title="Movimiento"
-                count="No"
+                count={statusDash.status_movimiento}
                 percentage={{
                   color: "success",
                   amount: "2",
@@ -122,8 +208,8 @@ function Dashboard() {
               
                     </>
                   }
-                  date="Actualizado hace 2 min"
-                  chart={sales}
+                  date={"Actualizado "+ fecha.hora+":"+fecha.minutos}
+                  chart={data}
                 />
               </MDBox>
             </Grid>

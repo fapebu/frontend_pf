@@ -47,6 +47,8 @@ import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import WeekendIcon from '@mui/icons-material/Weekend';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 
 const routes = [
   {
@@ -61,9 +63,17 @@ const routes = [
     type: "collapse",
     name: "Estado",
     key: "estado",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <LeaderboardIcon fontSize="small"/>,
     route: "/estado",
     component: <Tables />,
+  },
+  {
+    type: "collapse",
+    name: "Habitaciones",
+    key: "habitaciones",
+    icon: <WeekendIcon fontSize="small"/>,
+    route: "/habitaciones",
+    component: <Profile />,
   },
   {
     type: "collapse",
@@ -82,14 +92,7 @@ const routes = [
     route: "/notifications",
     component: <Notifications />,
   },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-  },
+  
   {
     type: "collapse",
     name: "Sign In",

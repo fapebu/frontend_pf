@@ -34,11 +34,11 @@ function Footer({ company, links }) {
   const renderLinks = () =>
     links.map((link) => (
       <MDBox key={link.name} component="li" px={2} lineHeight={1}>
-        <Link href={link.href} target="_blank">
+        
           <MDTypography variant="button" fontWeight="regular" color="text">
             {link.name}
           </MDTypography>
-        </Link>
+        
       </MDBox>
     ));
 
@@ -99,10 +99,8 @@ function Footer({ company, links }) {
 Footer.defaultProps = {
   company: { href: "", name: "Ivana Pruzzo" },
   links: [
-    { href: "https://www.creative-tim.com/", name: "Creative Tim" },
-    { href: "https://www.creative-tim.com/presentation", name: "About Us" },
-    { href: "https://www.creative-tim.com/blog", name: "Blog" },
-    { href: "https://www.creative-tim.com/license", name: "License" },
+    { href: " ", name: "Universisdad Tecnologica Nacional" },
+   
   ],
 };
 
