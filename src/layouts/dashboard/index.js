@@ -45,18 +45,25 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+  //const { sales, tasks } = reportsLineChartData;
   //useState
   
   const [statusDash, setstatusDash] = useState({"status_puerta": "none",
                                                 "status_luz": "none",
                                                 "status_movimiento": "none"});
 
-  const [data, setData] = useState(new Object());
+  const [temp, setTemp] = useState(new Object());
   const [fecha, setFecha] = useState(new Object());
-  var variable = 1; 
+
+  const [mono,setMono] = useState(new Object());
+
+  
+  const [fechaRt, setFechaRt] = useState(new Object());
+ 
   var time = 5000;
   const urlTemp = 'http://localhost:3001/temperatura/11'
+  const urlMono = 'http://localhost:3001/monoxido/5'
+  const urlRTime = 'http://localhost:3001/realtime/11'
   
   useEffect(() => { //inicializamos la temperatura.
      
@@ -78,7 +85,7 @@ function Dashboard() {
                               data: datasets 
                             },
                   }
-      setData(sales);
+      setTemp(sales);
       const date = new Date(); //tomamos la fecha actual
       let minutes = 0;
       if(date.getMinutes()< 10){
@@ -99,7 +106,7 @@ function Dashboard() {
      
     }, [])
                                                  
-useEffect(() => { //intervalo de temperatura
+  useEffect(() => { //intervalo de temperatura
   
  function funcion () { axios.get(urlTemp).then((response) => {
    let label = [];
@@ -117,7 +124,7 @@ const sales = {
                            data: datasets 
                          },
                }
-   setData(sales);
+      setTemp(sales);
                                               
    const date = new Date(); //tomamos la fecha actual
    let minutes = 0;
@@ -141,7 +148,141 @@ const sales = {
     const intervalo = setInterval(funcion,time)
     }, [])
 
+    useEffect(() => { //inicializamos las ppm.
+     
+      axios.get(urlMono).then((response) => {
+       let label = [];
+       let datasets = [];
+                                               
+       response.data.forEach(element => {
+         label.push(element.hora)
+         datasets.push(element.ppm)
+         });
+    
+    
+    
+    const task = {
+                   labels: label,
+                   datasets: { 
+                               label: "Temperatura", 
+                               data: datasets 
+                             },
+                   }
+       setMono(task);
+       const date = new Date(); //tomamos la fecha actual
+       let minutes = 0;
+       if(date.getMinutes()< 10){
+            minutes = "0" + date.getMinutes();
+         }
+       else{ 
+            minutes = date.getMinutes()
+         }
+                                                  
+       
+       const dateNow = {
+         "hora" : date.getHours(),
+         "minutos" : minutes,
+         }
+         
+         setFecha(dateNow)
+                       }) 
+      
+     }, [])
+                                                  
+   useEffect(() => { //intervalo de ppm
+   
+  function funcion () { axios.get(urlMono).then((response) => {
+    let label = [];
+    let datasets = [];
+                                               
+    response.data.forEach(element => {
+      label.push(element.hora)
+      datasets.push(element.ppm)
+      });
+ 
+ const task = {
+                labels: label,
+                datasets: { 
+                            label: "Temperatura", 
+                            data: datasets 
+                          },
+                }
+    setMono(task);
+                                               
+    const date = new Date(); //tomamos la fecha actual
+    let minutes = 0;
+    if(date.getMinutes()< 10){
+         minutes = "0" + date.getMinutes();
+      }
+    else{ 
+         minutes = date.getMinutes()
+      }
+                                               
+    
+    const dateNow = {
+      "hora" : date.getHours(),
+      "minutos" : minutes,
+      }
+     
+      setFecha(dateNow)
+                                               
+                    })};
+   
+     const intervalo = setInterval(funcion,time)
+     }, [])
 
+     useEffect(() => { //inicializamos los datos en tiempo real.
+     
+      axios.get(urlRTime).then((response) => {
+        
+        setstatusDash(response.data)
+       
+       const date = new Date(); //tomamos la fecha actual
+       let minutes = 0;
+       if(date.getMinutes()< 10){
+            minutes = "0" + date.getMinutes();
+         }
+       else{ 
+            minutes = date.getMinutes()
+         }
+                                                  
+       
+       const dateNow = {
+         "hora" : date.getHours(),
+         "minutos" : minutes,
+         }
+         
+         setFechaRt(dateNow)
+                       }) 
+      
+     }, [])
+                                                  
+   useEffect(() => { //intervalo de tiempo real
+   
+  function funcion () { axios.get(urlRTime).then((response) => {
+    setstatusDash(response.data)
+                                               
+    const date = new Date(); //tomamos la fecha actual
+    let minutes = 0;
+    if(date.getMinutes()< 10){
+         minutes = "0" + date.getMinutes();
+      }
+    else{ 
+         minutes = date.getMinutes()
+      }
+                                               
+    
+    const dateNow = {
+      "hora" : date.getHours(),
+      "minutos" : minutes,
+      }
+     
+      setFechaRt(dateNow)
+                                               
+                    })};
+   
+     const intervalo = setInterval(funcion,time)
+     }, [])
 
   return (
     <DashboardLayout>
@@ -204,12 +345,10 @@ const sales = {
                   description={
                     <>
                     
-                     Ultimo valor leido: <strong>2 grados</strong> .
-              
                     </>
                   }
                   date={"Actualizado "+ fecha.hora+":"+fecha.minutos}
-                  chart={data}
+                  chart={temp}
                 />
               </MDBox>
             </Grid>
@@ -220,11 +359,11 @@ const sales = {
                   title="Monoxido de carbono"
                   description={
                     <>
-                     Ultimo valor leido: <strong>100 ppm</strong> .
+                    
                     </>
                   }
-                  date="Actualizado hace 2 min"
-                  chart={tasks}
+                  date={"Actualizado "+ fecha.hora+":"+fecha.minutos}
+                  chart={mono}
                 />
               </MDBox>
             </Grid>
