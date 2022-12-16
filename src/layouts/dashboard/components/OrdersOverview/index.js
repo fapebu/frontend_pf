@@ -24,7 +24,80 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
 import TimelineItem from "examples/Timeline/TimelineItem";
 
+import { useState,useEffect } from "react";
+import axios from "axios";
+
 function OrdersOverview() {
+
+
+  const urlNoti = 'http://localhost:3001/notificacion/1'
+
+  const [noti, setNoti] = useState(new Array({color:"primary",info:"none"},{color:"primary",info:"none"},{color:"primary",info:"none"},{color:"primary",info:"none"},{color:"primary",info:"none"}));
+
+  useEffect(() => { //inicializamos la temperatura.
+     
+    axios.get(urlNoti).then((response) => {
+     
+     let datasets = [];
+                                             
+     response.data.forEach(element => {
+      const noti = {
+                info: element.info,
+                color: element.color 
+        }
+       
+        datasets.push(noti);
+       });
+  
+       setNoti(datasets)
+  
+    })
+     
+      console.log(noti)
+    
+   }, [])
+                                                
+/* useEffect(() => { //intervalo de temperatura
+ 
+function funcion () { axios.get(urlNoti).then((response) => {
+  let label = [];
+  let datasets = [];
+                                             
+  response.data.forEach(element => {
+    label.push(element.hora)
+    datasets.push(element.temp)
+    });
+
+const sales = {
+              labels: label,
+              datasets: { 
+                          label: "Temperatura", 
+                          data: datasets 
+                        },
+              }
+     setTemp(sales);
+                                             
+  const date = new Date(); //tomamos la fecha actual
+  let minutes = 0;
+  if(date.getMinutes()< 10){
+       minutes = "0" + date.getMinutes();
+    }
+  else{ 
+       minutes = date.getMinutes()
+    }
+                                             
+  
+  const dateNow = {
+    "hora" : date.getHours(),
+    "minutos" : minutes,
+    }
+   
+    setFecha(dateNow)
+                                             
+                  })};
+ 
+   const intervalo = setInterval(funcion,time)
+   }, [])*/
   return (
     <Card sx={{ height: "100%" }}>
       <MDBox pt={3} px={3}>
@@ -33,34 +106,36 @@ function OrdersOverview() {
         </MDTypography>
       </MDBox>
       <MDBox p={2}>
+        
+        
         <TimelineItem
-          color="success"
+          color={noti[0].color}
           icon="notifications"
-          title="Aumento de Temperatura"
-          dateTime="22 DEC 7:20 PM"
+          title={noti[0].info}
+          dateTime=""
         />
         <TimelineItem
-          color="error"
+          color={noti[1].color}
           icon="notifications"
-          title="Movimiento en la habitacion"
-          dateTime="21 DEC 11 PM"
+          title={noti[1].info}
+          dateTime=""
         />
         <TimelineItem
-          color="info"
+          color={noti[2].color}
           icon="notifications"
-          title="Puerta abieta"
-          dateTime="21 DEC 9:34 PM"
+          title={noti[2].info}
+          dateTime=""
         />
         <TimelineItem
-          color="warning"
+          color={noti[3].color}
           icon="notifications"
-          title="Puerta cerrada"
-          dateTime="20 DEC 2:20 AM"
+          title={noti[3].info}
+          dateTime=""
         />
         <TimelineItem
-          color="primary"
+          color={noti[4].color}
           icon="notifications"
-          title="Luz Encendida"
+          title={noti[4].info}
           dateTime="18 DEC 4:54 AM"
           lastItem
         />
