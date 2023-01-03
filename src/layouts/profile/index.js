@@ -78,7 +78,7 @@ function Overview() {
                 description=""
                 action={{
                   type: "internal",
-                  route: "/pages/profile/profile-overview",
+                  route: "/dashboard/1",
                   color: "info",
                   label: "Ver Habitacion",
                 }}
@@ -98,7 +98,7 @@ function Overview() {
                 description=""
                 action={{
                   type: "internal",
-                  route: "/pages/profile/profile-overview",
+                  route: "/dashboard/2",
                   color: "info",
                   label: "Ver Habitacion",
                 }}
@@ -115,7 +115,7 @@ function Overview() {
                 description=""
                 action={{
                   type: "internal",
-                  route: "/pages/profile/profile-overview",
+                  route: "/dashboard/3",
                   color: "info",
                   label: "Ver Habitacion",
                 }}
@@ -135,7 +135,7 @@ function Overview() {
                 description=""
                 action={{
                   type: "internal",
-                  route: "/pages/profile/profile-overview",
+                  route: "/dashboard/4",
                   color: "info",
                   label: "Ver Habitacion",
                 }}

@@ -55,7 +55,7 @@ function ComplexStatisticsCard({ color, title, count, percentage, icon }) {
       <Divider />
       <MDBox pb={2} px={2}>
         <MDTypography component="p" variant="button" color="text" display="flex">
-          <span>Actualizado hace</span>
+          <span>Actualizado a</span>
           &nbsp;
           <MDTypography
             component="span"

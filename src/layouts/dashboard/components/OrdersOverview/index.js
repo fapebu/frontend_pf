@@ -53,51 +53,31 @@ function OrdersOverview() {
   
     })
      
-      console.log(noti)
+      
     
    }, [])
                                                 
-/* useEffect(() => { //intervalo de temperatura
+ useEffect(() => { //intervalo de temperatura
  
-function funcion () { axios.get(urlNoti).then((response) => {
-  let label = [];
-  let datasets = [];
+function funcion () {  axios.get(urlNoti).then((response) => {
+     
+     let datasets = [];
                                              
-  response.data.forEach(element => {
-    label.push(element.hora)
-    datasets.push(element.temp)
-    });
-
-const sales = {
-              labels: label,
-              datasets: { 
-                          label: "Temperatura", 
-                          data: datasets 
-                        },
-              }
-     setTemp(sales);
-                                             
-  const date = new Date(); //tomamos la fecha actual
-  let minutes = 0;
-  if(date.getMinutes()< 10){
-       minutes = "0" + date.getMinutes();
-    }
-  else{ 
-       minutes = date.getMinutes()
-    }
-                                             
+     response.data.forEach(element => {
+      const noti = {
+                info: element.info,
+                color: element.color 
+        }
+       
+        datasets.push(noti);
+       });
   
-  const dateNow = {
-    "hora" : date.getHours(),
-    "minutos" : minutes,
-    }
-   
-    setFecha(dateNow)
-                                             
-                  })};
+       setNoti(datasets)
+  
+    })};
  
-   const intervalo = setInterval(funcion,time)
-   }, [])*/
+   const intervalo = setInterval(funcion,500)
+   }, [])
   return (
     <Card sx={{ height: "100%" }}>
       <MDBox pt={3} px={3}>

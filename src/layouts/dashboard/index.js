@@ -35,6 +35,7 @@ import LightbulbIcon from '@mui/icons-material/Lightbulb';
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+import { useParams } from 'react-router-dom';
 
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
@@ -59,11 +60,15 @@ function Dashboard() {
 
   
   const [fechaRt, setFechaRt] = useState(new Object());
- 
+  let {id} = useParams();
+  if (id == null){
+    id = 1;
+}
+
   var time = 5000;
   const urlTemp = 'http://localhost:3001/temperatura/11'
   const urlMono = 'http://localhost:3001/monoxido/5'
-  const urlRTime = 'http://localhost:3001/realtime/11'
+  const urlRTime = 'http://localhost:3001/realtime/'+id;
   
   useEffect(() => { //inicializamos la temperatura.
      
@@ -298,8 +303,8 @@ const sales = {
                 count={statusDash.status_puerta}
                 percentage={{
                   color: "success",
-                  amount: "2",
-                  label: "min ",
+                  amount: "timepo real",
+                  label: " ",
                 }}
               />
             </MDBox>
@@ -312,8 +317,8 @@ const sales = {
                 count={statusDash.status_luz}
                 percentage={{
                   color: "success",
-                  amount: "2",
-                  label: "min",
+                  amount: "timepo real",
+                  label: " ",
                 }}
               />
             </MDBox>
@@ -327,8 +332,8 @@ const sales = {
                 count={statusDash.status_movimiento}
                 percentage={{
                   color: "success",
-                  amount: "2",
-                  label: "min",
+                  amount: "timepo real",
+                  label: " ",
                 }}
               />
             </MDBox>

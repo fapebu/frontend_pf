@@ -51,12 +51,12 @@ import WeekendIcon from '@mui/icons-material/Weekend';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 
 const routes = [
-  {
+ {
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
+    route: "/dashboard/:id",
     component: <Dashboard />,
   },
   {
